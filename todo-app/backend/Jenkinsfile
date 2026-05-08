@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+    tools {
+        nodejs 'NodeJS'
+    }
+    stages {
+
+        // Stage 1: Checkout Code
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Hate16/TsheringDendup_02240367_DSO101_A2.git',
+                    credentialsId: 'github-creds'
+            }
+        }
+
+        // Stage 2: Install Dependencies
+        stage('Install') {
+            steps {
+                bat 'npm install'
+            }
+        }
+
+        // Stage 3: Build
+        stage('Build') {
+            steps {
+                bat 'npm run build'
+            }
+        }
+
+        // Stage 4: Run Tests
+        stage('Test') {
+            steps {
+                bat 'npm test'
+            }
+            post {
+                always {
+                    junit 'junit.xml'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check the logs.'
+        }
+    }
+}
