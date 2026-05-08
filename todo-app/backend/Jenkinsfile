@@ -5,7 +5,6 @@ pipeline {
     }
     stages {
 
-        // Stage 1: Checkout Code
         stage('Checkout') {
             steps {
                 git branch: 'main',
@@ -14,28 +13,31 @@ pipeline {
             }
         }
 
-        // Stage 2: Install Dependencies
         stage('Install') {
             steps {
-                bat 'npm install'
+                dir('todo-app/backend') {
+                    bat 'npm install'
+                }
             }
         }
 
-        // Stage 3: Build
         stage('Build') {
             steps {
-                bat 'npm run build'
+                dir('todo-app/backend') {
+                    bat 'npm run build'
+                }
             }
         }
 
-        // Stage 4: Run Tests
         stage('Test') {
             steps {
-                bat 'npm test'
+                dir('todo-app/backend') {
+                    bat 'npm test'
+                }
             }
             post {
                 always {
-                    junit 'junit.xml'
+                    junit 'todo-app/backend/junit.xml'
                 }
             }
         }
