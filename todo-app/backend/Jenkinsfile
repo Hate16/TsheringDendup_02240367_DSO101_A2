@@ -5,17 +5,9 @@ pipeline {
     }
     stages {
 
-        stage('Checkout') {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/Hate16/TsheringDendup_02240367_DSO101_A2.git',
-                    credentialsId: 'github-creds'
-            }
-        }
-
         stage('Install') {
             steps {
-                dir('todo-app/backend') {
+                dir('C:\\Users\\tdend\\OneDrive\\Desktop\\DSO_assignment 2\\todo-app\\backend') {
                     bat 'npm install'
                 }
             }
@@ -23,7 +15,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                dir('todo-app/backend') {
+                dir('C:\\Users\\tdend\\OneDrive\\Desktop\\DSO_assignment 2\\todo-app\\backend') {
                     bat 'npm run build'
                 }
             }
@@ -31,14 +23,9 @@ pipeline {
 
         stage('Test') {
             steps {
-                dir('todo-app/backend') {
+                dir('C:\\Users\\tdend\\OneDrive\\Desktop\\DSO_assignment 2\\todo-app\\backend') {
                     bat 'npm test'
-                }
-            }
-            post {
-                always {
-                    junit 'todo-app/backend/junit.xml'
-                }
+                 }
             }
         }
     }
